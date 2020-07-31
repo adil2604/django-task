@@ -18,7 +18,14 @@ git clone https://github.com/adil2604/django-task
 ```
 
 ## Usage
-
+Build project locally in project root: 
+```shell script
+docker-compose build 
+```
+or 
+```shell script
+docker-compose -f docker-compose.prod.yml build 
+```
 To run project locally in project root: 
 ```shell script
 docker-compose up
