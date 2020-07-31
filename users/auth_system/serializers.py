@@ -3,6 +3,7 @@ from rest_framework import serializers
 import django.contrib.auth.password_validation as validators
 from users.auth_system.backends import CustomUserAuth
 from users.models import CustomUser
+from django.contrib.auth import authenticate
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -35,20 +36,20 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(write_only=True)
-    password = serializers.CharField(write_only=True)
+    email = serializers.EmailField()
+    password = serializers.CharField()
 
     class Meta:
         model = CustomUser
         fields = ['email', 'password']
 
-    def validate(self, attrs):
-        print(1111111111)
-        user = CustomUserAuth().authenticate(email=attrs['email'], password=attrs['password'])
-        # user=TokenAuthentication().authenticate(attrs)
-        if user and user.is_active:
-            return user
-        elif not user:
-            raise serializers.ValidationError({"status": "Incorrect data"})
-        elif not user.is_active:
-            raise serializers.ValidationError({"status": "CustomUser not active"})
+    # def validate(self, attrs):
+    #     user, = authenticate(**attrs)
+    #     print(user)
+    #     # user=TokenAuthentication().authenticate(attrs)
+    #     if user and user.is_active:
+    #         return user
+    #     elif not user:
+    #         raise serializers.ValidationError({"status": "Incorrect data"})
+    #     elif not user.is_active:
+    #         raise serializers.ValidationError({"status": "CustomUser not active"})
